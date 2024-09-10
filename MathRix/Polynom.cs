@@ -3,39 +3,20 @@ using System.ComponentModel;
 
 class Polynom
 {
-    private double[] coefficients; //1,2,3,4  = 1 + 2x + 3x^2 + 4x^3
+    private dynamic[] coefficients; //1,2,3,4  = 1 + 2x + 3x^2 + 4x^3
     // 2 4 0 5  = 2 + 4x + 5x^3
     private int length;
     private string symbol = "x";
-
-    public Polynom(string text)
-    {
-
-    }
     public Polynom(int length)
     {
-        this.coefficients = new double[length];
+        this.coefficients = new dynamic[length];
         for (int i = 0; i < length; i++)
         {
             this.coefficients[i] = 0;
         }
     }
-    public Polynom(int length, string symbol = "x")
+    public Polynom(params dynamic[] coefficients)
     {
-        this.symbol = symbol;
-        this.coefficients = new double[length];
-        for (int i = 0; i < length; i++)
-        {
-            this.coefficients[i] = 0;
-        }
-    }
-    public Polynom(params double[] coefficients)
-    {
-        this.coefficients = coefficients;
-    }
-    public Polynom(string symbol = "x", params double[] coefficients)
-    {
-        this.symbol = symbol;
         this.coefficients = coefficients;
     }
 
@@ -137,7 +118,7 @@ class Polynom
     {
         if (power == 0)
         {
-            return new Polynom([1]);
+            return new Polynom(new int[] { 1 });
         }
 
         Polynom result = new Polynom(this.coefficients);
@@ -147,7 +128,8 @@ class Polynom
             result *= pow_poly;
         }
         return result;
-    } //derivative
+    }
+    //derivative
     public Polynom Derivative()
     {
         if (this.coefficients.Length == 1)
