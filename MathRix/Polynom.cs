@@ -1,14 +1,14 @@
-
-using System.ComponentModel;
-
 class Polynom
 {
     private dynamic[] coefficients; //1,2,3,4  = 1 + 2x + 3x^2 + 4x^3
     // 2 4 0 5  = 2 + 4x + 5x^3
-    private int length;
-    private string symbol = "x";
+    private int length = 0;
+    public int Length { get { return length; } }
+    private char symbol = 'x';
+    public char Symbol { get { return symbol; } set { symbol = value; } }
     public Polynom(int length)
     {
+        this.length = length;
         this.coefficients = new dynamic[length];
         for (int i = 0; i < length; i++)
         {
@@ -18,6 +18,16 @@ class Polynom
     public Polynom(params dynamic[] coefficients)
     {
         this.coefficients = coefficients;
+        this.length = coefficients.Length;
+    }
+
+    public dynamic this[dynamic x]
+    {
+        get { return getValue(x); }
+    }
+    private static dynamic getValue(dynamic x)
+    {
+        return x;
     }
 
     public static Polynom operator +(Polynom a, Polynom b)
@@ -129,7 +139,6 @@ class Polynom
         }
         return result;
     }
-    //derivative
     public Polynom Derivative()
     {
         if (this.coefficients.Length == 1)
@@ -184,7 +193,7 @@ class Polynom
         string replacing2 = this.symbol + "^1";
 
         result = ReplaceFirst(result, replacing1, "");
-        result = ReplaceFirst(result, replacing2, this.symbol);
+        result = ReplaceFirst(result, replacing2, Convert.ToString(this.symbol));
 
         if (isFirstPositive)
         {
